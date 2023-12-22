@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
         .withClassName('Gemini')
         .withNearText({ concepts: [prompt, query] })
         .withLimit(2)
-        .withFields('handle title description image shopifyid image')
+        .withFields('handle title description image shopifyid')
         .do();
 
       console.log('JSON.stringify(result, null, 2)', JSON.stringify(result, null, 2));

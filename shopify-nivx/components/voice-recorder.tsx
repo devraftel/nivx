@@ -63,7 +63,7 @@ export const VoiceRecorder = () => {
           </p>
         )}
         <button
-          className={`transform rounded-full bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-100/50 focus:outline-none ${
+          className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-700/55 dark:hover:bg-slate-100/50 focus:outline-none ${
             recorderControls.isRecording ? 'animate-spin' : ''
           }`}
           onClick={recorderControls.isRecording ? stopRecording : recorderControls.startRecording}

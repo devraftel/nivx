@@ -5,6 +5,7 @@ import { VoiceRecorder } from 'components/voice-recorder';
 // import { Carousel } from 'components/carousel';
 import ProductsGrid from 'components/products-grid';
 import { VoiceResponse } from 'components/voice-response';
+import { DrawerImageSearch } from 'components/image-search/drawer-search';
 
 const LandingUI = () => {
   return (
@@ -20,13 +21,9 @@ const LandingUI = () => {
           <div className="flex items-center px-2">
             <div className="flex flex-col items-center space-y-4">
               <VoiceRecorder />
+              <DrawerImageSearch />
               <button
-                className={`transform rounded-full bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-100/50 focus:outline-none `}
-              >
-                <ImageIcon size={24} />
-              </button>
-              <button
-                className={`transform rounded-full bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-100/50 focus:outline-none `}
+                className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-700/55 dark:hover:bg-slate-100/50 focus:outline-none `}
               >
                 <MessageSquareText size={24} />
               </button>
