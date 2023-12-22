@@ -47,6 +47,9 @@ dependencies:
   geist:
     specifier: ^1.0.0
     version: 1.2.0(next@14.0.0)
+  google-auth-library:
+    specifier: ^9.4.1
+    version: 9.4.1
   lucide-react:
     specifier: ^0.300.0
     version: 0.300.0(react@18.2.0)

@@ -1,5 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { client } from 'scripts/weaviate';
+import { GoogleAuth } from 'google-auth-library';
+import path from 'path';
+
+async function getAccessToken(jsonPath: string) {
+  const auth = new GoogleAuth({
+    keyFile: jsonPath,
+    scopes: 'https://www.googleapis.com/auth/cloud-platform',
+  });
+
+  const client = await auth.getClient();
+  const accessToken = await client.getAccessToken();
+  return accessToken;
+}
+
+// Construct an absolute path to the JSON key file
+const jsonKeyPath = path.resolve(__dirname, '../../nivx-408903-d25200f4d889.json');
+
+
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -9,12 +27,15 @@ export async function POST(request: NextRequest) {
   const prompt = body.prompt;
   // const prompt = 'Share a gift for this christmas season!!';
 
+    // Get the access token
+  const accessToken = await getAccessToken('nivx-408903-8ce98da433b3.json');  
+
   const data = await fetch(
     `https://us-central1-aiplatform.googleapis.com/v1/projects/${process.env.GOOGLE_PROJECT_ID}/locations/us-central1/publishers/google/models/gemini-pro:streamGenerateContent`,
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.VERRTEXVEARER!}`,
+        Authorization: `Bearer ${accessToken.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -118,7 +139,7 @@ export async function POST(request: NextRequest) {
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${process.env.VERRTEXVEARER!}`,
+            Authorization: `Bearer ${accessToken.token}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
