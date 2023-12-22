@@ -34,22 +34,20 @@ export const VoiceRecorder = () => {
 
   return (
     <div>
-      <div className="flex h-screen w-full flex-col items-center justify-center bg-transparent">
+      <div className="flex flex-col items-center">
+        {recorderControls.isRecording && (
+          <p className="mb-4 text-xl ">
+            <AudioLines size={24} />
+          </p>
+        )}
         <button
-          className={`transform rounded-full bg-yellow-800 p-4 text-white transition duration-200 ease-in-out hover:scale-105 focus:outline-none ${
+          className={`transform rounded-full bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-100/50 focus:outline-none ${
             recorderControls.isRecording ? 'animate-spin' : ''
           }`}
           onClick={recorderControls.isRecording ? stopRecording : recorderControls.startRecording}
         >
           {recorderControls.isRecording ? <StopCircle size={24} /> : <Mic size={24} />}
         </button>
-        {recorderControls.isRecording ? (
-          <p className="mt-4 text-xl ">
-            <AudioLines size={24} />
-          </p>
-        ) : (
-          <p className="mt-4 text-xl text-gray-400">Click the microphone to start recording</p>
-        )}
       </div>
     </div>
   );
