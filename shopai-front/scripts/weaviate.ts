@@ -2,21 +2,21 @@ import weaviate, { WeaviateClient, ObjectsBatcher, ApiKey } from 'weaviate-ts-cl
 import { getCollectionProducts } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
 
-const client: WeaviateClient = weaviate.client({
-    scheme: process.env.WEAVIATE_SCHEME || 'https',
-    host: process.env.WEAVIATE_HOST || 'localhost',
-    apiKey: new ApiKey(process.env.WEAVIATE_API_KEY!),
-    headers: { 'X-OpenAI-Api-Key': `${process.env.OPENAI_API_KEY}` }
-  });
+export const client: WeaviateClient = weaviate.client({
+  scheme: process.env.WEAVIATE_SCHEME || 'https',
+  host: process.env.WEAVIATE_HOST || 'localhost',
+  apiKey: new ApiKey(process.env.WEAVIATE_API_KEY!),
+  headers: { 'X-OpenAI-Api-Key': `${process.env.OPENAI_API_KEY}` }
+});
 
 // Add the schema
 const classObj = {
-  'class': 'STORE',
-  'vectorizer': 'text2vec-openai',  // If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
-  'moduleConfig': {
+  class: 'Gemini',
+  vectorizer: 'text2vec-openai', // If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
+  moduleConfig: {
     'text2vec-openai': {},
-    'generative-openai': {}  // Ensure the `generative-openai` module is used for generative queries
-  },
+    'generative-openai': {} // Ensure the `generative-openai` module is used for generative queries
+  }
 };
 
 async function addSchema() {
@@ -28,10 +28,10 @@ async function addSchema() {
 
 // Import data function
 async function getJsonData() {
-    const products: Product[] = await getCollectionProducts({
-        collection: 'all-products'
-      });
-    return products;
+  const products: Product[] = await getCollectionProducts({
+    collection: 'all-products'
+  });
+  return products;
 }
 
 async function importQuestions() {
@@ -46,7 +46,7 @@ async function importQuestions() {
   for (const product of data) {
     // Construct an object with a class and properties 'answer' and 'question'
     const obj = {
-      class: 'Question',
+      class: 'Gemini',
       properties: {
         title: product.title,
         handle: product.handle,
@@ -55,8 +55,8 @@ async function importQuestions() {
         image: product.featuredImage.url,
         price: product.priceRange.maxVariantPrice.amount,
         currentcyCode: product.priceRange.maxVariantPrice.currencyCode,
-        tags: product.tags[0],
-          },
+        tags: product.tags[0]
+      }
     };
 
     // add the object to the batch queue
@@ -83,4 +83,3 @@ export async function run() {
   await addSchema();
   await importQuestions();
 }
-
