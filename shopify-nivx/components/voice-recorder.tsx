@@ -2,10 +2,12 @@
 import { Mic, StopCircle, AudioLines } from 'lucide-react';
 import { useAudioRecorder } from 'react-audio-voice-recorder';
 import { useProductsStore } from './store/products-array';
+import { useVoiceStore } from './store/voice-response';
 
 export const VoiceRecorder = () => {
   const recorderControls = useAudioRecorder();
   const { setProducts } = useProductsStore();
+  const { setVoice } = useVoiceStore();
 
   const stopRecording = async () => {
     recorderControls.stopRecording();
@@ -44,6 +46,7 @@ export const VoiceRecorder = () => {
           console.log('new DATQ', newData);
 
           setProducts(newData.products);
+          setVoice(newData.response);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -65,7 +68,7 @@ export const VoiceRecorder = () => {
           }`}
           onClick={recorderControls.isRecording ? stopRecording : recorderControls.startRecording}
         >
-          {recorderControls.isRecording ? <StopCircle size={24} /> : <Mic size={24} />}
+          {recorderControls.isRecording ? <StopCircle size={24} color="red" /> : <Mic size={24} />}
         </button>
       </div>
     </div>
