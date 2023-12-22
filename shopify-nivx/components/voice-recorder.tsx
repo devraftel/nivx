@@ -29,20 +29,22 @@ export const VoiceRecorder = () => {
         const data = await response.json();
         console.log(data);
 
-        const newRes = await fetch('/api/fun', {
-          method: 'POST',
-          body: JSON.stringify({ prompt: data })
-        });
+        if (data) {
+          const newRes = await fetch('/api/fun', {
+            method: 'POST',
+            body: JSON.stringify({ prompt: data })
+          });
 
-        if (!newRes.ok) {
-          console.error('Network response was not ok');
+          if (!newRes.ok) {
+            console.error('Network response was not ok');
+          }
+
+          const newData = await newRes.json();
+
+          console.log('new DATQ', newData);
+
+          setProducts(newData.products);
         }
-
-        const newData = await newRes.json();
-
-        console.log('new DATQ', newData);
-
-        setProducts(newData.products);
       } catch (error) {
         console.error('Error:', error);
       }

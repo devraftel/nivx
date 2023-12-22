@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-// function getOpenAIKey(): string {
-//   const apiKey = process.env.OPENAI_API_KEY;
-//   if (!apiKey) {
-//     throw new Error('OpenAI API key is not present in the environment variables.');
-//   }
-//   return apiKey;
-// }
-
 const openai = new OpenAI({
-  apiKey: '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'
+  apiKey: process.env.OPENAI_API_KEY!
 });
 
 export async function POST(request: NextRequest) {
