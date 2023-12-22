@@ -1,23 +1,9 @@
-import { VertexAI } from '@google-cloud/vertexai';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 import { client } from 'scripts/weaviate';
 const projectId = 'nivx-408903';
-const location = 'us-central1';
 
-// Initialize Vertex with your Cloud project and location
-const vertex_ai = new VertexAI({ project: projectId, location: location });
-const model = 'gemini-pro';
-
-// Instantiate the models
-const generativeModel = vertex_ai.preview.getGenerativeModel({
-  model: model,
-  generation_config: {
-    max_output_tokens: 2048,
-    temperature: 0.9,
-    top_p: 1
-  }
-});
 
 export async function GET(request: NextRequest) {
   // const { prompt } = request.json();
@@ -28,7 +14,7 @@ export async function GET(request: NextRequest) {
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ya29.a0AfB_byBdfgl1qrRtZT_xYJlKK-RY-XGwtWsf13TnMXwzIAOoYMRp73naRBma7DJlibdCgeqeS-ePZ-WFyvuQfhemg1njnU77mOLlKySgqCM9vDlvOecwl-3glos_zTSqcNKy7LfK2Op9ZDyWUnHdzVVnZiAcWn_9NfSpE33Lar8aCgYKAZISARISFQHGX2MipFCgRQs0JUK9Lj1oLppUzg0178`,
+        Authorization: `Bearer ${process.env.VERRTEXVEARER}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
