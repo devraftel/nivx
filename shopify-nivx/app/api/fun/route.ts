@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
 
       const json2 = await res2.json();
 
-      console.log('JSON2', json2[0].candidates[0]?.content.parts[0].text);
+      console.log('JSON2', json2[0].candidates[0]);
 
       answer = json2[0].candidates[0]?.content.parts[0].text;
     } else {

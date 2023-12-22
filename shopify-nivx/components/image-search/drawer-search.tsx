@@ -25,20 +25,20 @@ export function DrawerImageSearch() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <TooltipProvider>
+        {/* <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger> */}
               <button
                 className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105  hover:bg-slate-700/55 dark:hover:bg-slate-100/40 focus:outline-none `}
               >
                 <ImageIcon size={24} />
               </button>
-            </TooltipTrigger>
+            {/* </TooltipTrigger>
             <TooltipContent>
               <p>Image Search</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
+        </TooltipProvider> */}
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
