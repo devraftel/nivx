@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
+export type MYProduct = {
+  shopifyid: string;
+  title: string;
+
   description: string;
   image: string;
+  handle: string;
 };
 
 type ProductsState = {
-  products: Product[];
-  setProducts: (products: Product[]) => void;
+  products: MYProduct[];
+  setProducts: (products: MYProduct[]) => void;
 };
 
 export const useProductsStore = create<ProductsState>((set) => ({
