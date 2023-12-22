@@ -3,6 +3,7 @@ import avatar from '../../avatar_sf.png';
 import { ImageIcon, MessageSquareText } from 'lucide-react';
 import { VoiceRecorder } from 'components/voice-recorder';
 import { Carousel } from 'components/carousel';
+import ProductsGrid from 'components/products-grid';
 
 const LandingUI = () => {
   return (
@@ -10,6 +11,7 @@ const LandingUI = () => {
       <div className="grid w-full grid-cols-5 gap-2 sm:gap-4 md:gap-6">
         <div className="col-span-3 flex flex-col items-center justify-center">
           <Carousel />
+          <ProductsGrid />
         </div>
 
         <div className="col-span-2 flex w-fit flex-col items-center rounded-2xl border bg-gray-100/10 p-2 shadow-md md:p-6">

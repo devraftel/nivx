@@ -1,9 +1,11 @@
 'use client';
 import { Mic, StopCircle, AudioLines } from 'lucide-react';
 import { useAudioRecorder } from 'react-audio-voice-recorder';
+import { useProductsStore } from './store/products-array';
 
 export const VoiceRecorder = () => {
   const recorderControls = useAudioRecorder();
+  const { setProducts } = useProductsStore();
 
   const stopRecording = async () => {
     recorderControls.stopRecording();
@@ -26,6 +28,21 @@ export const VoiceRecorder = () => {
 
         const data = await response.json();
         console.log(data);
+
+        const newRes = await fetch('/api/fun', {
+          method: 'POST',
+          body: JSON.stringify({ prompt: data })
+        });
+
+        if (!newRes.ok) {
+          console.error('Network response was not ok');
+        }
+
+        const newData = await newRes.json();
+
+        console.log('new DATQ', newData);
+
+        setProducts(newData.products);
       } catch (error) {
         console.error('Error:', error);
       }

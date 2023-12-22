@@ -39,8 +39,7 @@ export async function POST(request: NextRequest) {
 
   console.log('response', data.text);
 
-  return NextResponse.json({
-    message: 'Hello from API route',
-    body
+  return NextResponse.json(data.text, {
+    status: 200
   });
 }

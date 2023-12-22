@@ -1,13 +1,15 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 
 import { client } from 'scripts/weaviate';
 const projectId = 'nivx-408903';
 
+export async function POST(request: NextRequest) {
+  const body = await request.json();
 
-export async function GET(request: NextRequest) {
-  // const { prompt } = request.json();
-  const prompt = 'Share a gift for this christmas season!!';
+  console.log('FUN ROUTE: \t', body.prompt);
+
+  const prompt = body.prompt;
+  // const prompt = 'Share a gift for this christmas season!!';
 
   const data = await fetch(
     `https://us-central1-aiplatform.googleapis.com/v1/projects/${projectId}/locations/us-central1/publishers/google/models/gemini-pro:streamGenerateContent`,
