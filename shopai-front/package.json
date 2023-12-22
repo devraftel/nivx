@@ -22,11 +22,15 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@google-cloud/vertexai": "^0.1.3",
+    "@google/generative-ai": "^0.1.3",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@vercel/postgres": "^0.5.1",
     "ai": "^2.2.30",
     "clsx": "^2.0.0",
     "geist": "^1.0.0",
+    "lucide-react": "^0.300.0",
     "next": "14.0.0",
     "openai": "^4.24.0",
     "react": "18.2.0",

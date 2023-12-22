@@ -45,7 +45,7 @@ export const VoiceRecorder = () => {
         </button>
         {recorderControls.isRecording ? (
           <p className="mt-4 text-xl ">
-            <AudioLines size={24} classname="animate-pulse bg-yellow-50 transition-all" />
+            <AudioLines size={24} />
           </p>
         ) : (
           <p className="mt-4 text-xl text-gray-400">Click the microphone to start recording</p>
