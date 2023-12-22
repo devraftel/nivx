@@ -14,17 +14,31 @@ import {
   DrawerTrigger,
 } from "components/ui/drawer"
 import { FindImageForm } from "./image-form"
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "components/ui/tooltip"
 export function DrawerImageSearch() {
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-         <button
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
                 className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105  hover:bg-slate-700/55 dark:hover:bg-slate-100/40 focus:outline-none `}
               >
                 <ImageIcon size={24} />
               </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Image Search</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
@@ -40,7 +54,7 @@ export function DrawerImageSearch() {
           <DrawerFooter className="pt-1 mt-1">
             {/* <Button>Image Search</Button> */}
             <DrawerClose asChild>
-              <Button variant="outline"  size={'sm'}>Cancel</Button>
+              <Button variant="outline" size={'sm'}>Cancel</Button>
             </DrawerClose>
           </DrawerFooter>
         </div>

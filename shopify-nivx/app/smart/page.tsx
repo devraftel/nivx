@@ -22,11 +22,11 @@ const LandingUI = () => {
             <div className="flex flex-col items-center space-y-4">
               <VoiceRecorder />
               <DrawerImageSearch />
-              <button
+              {/* <button
                 className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-700/55 dark:hover:bg-slate-100/50 focus:outline-none `}
               >
                 <MessageSquareText size={24} />
-              </button>
+              </button> */}
             </div>
 
             <div className="flex h-full flex-col items-center space-y-4 md:space-y-6">

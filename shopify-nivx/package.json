@@ -29,6 +29,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@vercel/postgres": "^0.5.1",
     "ai": "^2.2.30",
     "class-variance-authority": "^0.7.0",
