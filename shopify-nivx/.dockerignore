@@ -1,5 +1,5 @@
 node_modules
 .vercel 
 .next
-# .env
+.env
 nivx-408903-8ce98da433b3.json
