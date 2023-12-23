@@ -1,6 +1,28 @@
-import { VertexAI } from '@google-cloud/vertexai';
+import { GoogleAuth } from 'google-auth-library';
 import { NextRequest, NextResponse } from 'next/server';
 import { client } from 'scripts/weaviate';
+
+const auth = new GoogleAuth({
+  credentials: {
+    client_email: process.env.GOOGLE_SERVICE_CLIENT_EMAIL || 'default_client_email@example.com',
+    private_key: (process.env.GOOGLE_SERVICE_PRIVATE_KEY || 'default_private_key').replace(
+      /\\n/gm,
+      '\n'
+    )
+  },
+  scopes: 'https://www.googleapis.com/auth/cloud-platform'
+});
+
+async function getAccessToken() {
+  try {
+    const client = await auth.getClient();
+    const accessToken = await client.getAccessToken();
+    return accessToken;
+  } catch (error) {
+    console.error('Error getting access token:', error);
+    return null;
+  }
+}
 
 async function getBase64(imageFile: any) {
   //   const image = await axios.get(url, { responseType: 'arraybuffer' });
@@ -16,9 +38,26 @@ async function getBase64(imageFile: any) {
 
 export async function POST(request: NextRequest) {
   console.log('IMAGE SEARCH ROUTE: \t');
-  const formData = await request.formData();
 
   try {
+
+    const formData = await request.formData();
+    console.log('formData', formData);
+    
+  
+    const accessToken = await getAccessToken();
+  
+    console.log('accessToken', accessToken);
+    
+  
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: 'Failed to authenticate with Google services.' },
+        { status: 500 }
+      );
+    }
+
+    
     const imageFile = formData.get('image');
 
     if (!imageFile) {
@@ -29,53 +68,59 @@ export async function POST(request: NextRequest) {
 
     const base64String = await getBase64(imageFile);
 
-    console.log('IMAGE CALLED: \t', base64String);
-
-    const vertexAI = new VertexAI({
-      project: process.env.GOOGLE_PROJECT_ID!,
-      location: 'us-central1'
-    });
-
-    const generativeVisionModel = vertexAI.preview.getGenerativeModel({
-      model: 'gemini-pro-vision'
-    });
-
-    // Pass multimodal prompt
-    const request: any = {
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              inlineData: {
-                data: base64String,
-                mimeType: 'image/png'
-              }
-            },
-            {
-              text: 'Find what product I want to search, it;s characterstics and features'
-            }
-          ]
-        }
-      ]
-    };
+    console.log('IMAGE CALLED: \t');
 
     // Create the response
-    const response = await generativeVisionModel.generateContent(request);
-    // Wait for the response to complete
-    const aggregatedResponse = await response.response;
+    const fetchVision = await fetch(
+      `https://us-central1-aiplatform.googleapis.com/v1/projects/${process.env.GOOGLE_PROJECT_ID}/locations/us-central1/publishers/google/models/gemini-pro-vision:streamGenerateContent`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: 'user',
+              parts: [
+                {
+                  inlineData: {
+                    data: base64String,
+                    mimeType: 'image/png'
+                  }
+                },
+                {
+                  text: 'Find what product I want to search, it;s characterstics and features'
+                }
+              ]
+            }
+          ],
+          generation_config: {
+            temperature: 0.7,
+            topP: 0.8,
+            topK: 40,
+            maxOutputTokens: 200
+          }
+        })
+      }
+    );
 
-    console.log('RESPONSE: \t', aggregatedResponse.candidates);
+    const aggregatedResponse = await fetchVision.json();
+
+    // console.log('aggregatedResponse', aggregatedResponse);
 
     if (
       !aggregatedResponse ||
-      !aggregatedResponse.candidates ||
-      aggregatedResponse.candidates.length === 0
+      !aggregatedResponse[0].candidates ||
+      aggregatedResponse[0].candidates.length === 0
     ) {
       return NextResponse.json({ error: 'No candidates found' }, { status: 400 });
     }
 
-    const candidate = aggregatedResponse.candidates[0];
+    const candidate = aggregatedResponse[0].candidates[0];
+    console.log('candidate', candidate);
+    
     if (
       !candidate ||
       !candidate.content ||
