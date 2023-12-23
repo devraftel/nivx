@@ -8,7 +8,7 @@ import { DrawerImageSearch } from 'components/image-search/drawer-search';
 
 const LandingUI = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center px-2 py-4 sm:px-4 md:px-8 md:py-8">
+    <div className="mx-auto flex min-h-screen flex-col items-center px-2 py-4 sm:px-4 md:px-8 md:py-8">
       <div className="grid w-full grid-cols-5 gap-2 sm:gap-4 md:gap-6">
         <div className="col-span-3 flex flex-col items-center space-y-6 py-6">
           <GeminiVoiceOutput />

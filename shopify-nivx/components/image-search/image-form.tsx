@@ -12,8 +12,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from 'components/
 
 import { Button } from 'components/ui/button';
 import { Input } from 'components/ui/input';
-import { useProductsStore } from 'components/store/searched-product-store';
-import { useVoiceStore } from 'components/store/gemini-voice-output-store';
+import { useSearchedProductsStore } from 'components/store/searched-product-store';
+import { useGeminiVoiceOutputStore } from 'components/store/gemini-voice-output-store';
 
 const imageSchema = z.any();
 
@@ -26,8 +26,8 @@ export const SetImageValidator = z.object({
 export type SetImageRequest = z.infer<typeof SetImageValidator>;
 
 export const FindImageForm = () => {
-  const { setProducts } = useProductsStore();
-  const { setVoice } = useVoiceStore();
+  const { setProducts } = useSearchedProductsStore();
+  const { setVoice } = useGeminiVoiceOutputStore();
 
   const form = useForm<SetImageRequest>({
     resolver: zodResolver(SetImageValidator),
@@ -49,7 +49,7 @@ export const FindImageForm = () => {
       }
       formData.append('image', value.image);
 
-      const response = await fetch(`/api/image-search/`, {
+      const response = await fetch(`/api/image-search`, {
         method: 'POST',
         body: formData
       });
@@ -58,7 +58,7 @@ export const FindImageForm = () => {
         toast.error('Failed to save UserInfo.');
         return;
       }
-      let newData = await response.json();
+      const newData = await response.json();
 
       if (!newData) {
         toast.error('Failed Image Search!');
@@ -134,12 +134,12 @@ export const FindImageForm = () => {
                             message: 'File size should be less than 2 MB'
                           });
                           toast.error('File size should be less than 2 MB');
-                        } else if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                        } else if (!['image/png'].includes(file.type)) {
                           form.setError('image', {
                             type: 'manual',
-                            message: 'File should be of type png, jpeg, or jpg'
+                            message: 'File should be of type png'
                           });
-                          toast.error('File should be of type png, jpeg, or jpg');
+                          toast.error('File should be of type png');
                         } else {
                           onChange(e.target.files[0]);
                         }

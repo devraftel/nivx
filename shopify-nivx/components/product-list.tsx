@@ -8,6 +8,8 @@ import { motion } from 'framer-motion';
 export const ProductList = () => {
   const { products } = useSearchedProductsStore();
 
+  if (!products) return null;
+
   const title = `Oops, it's a bit empty here...`;
   const wordVariants = {
     hidden: { opacity: 0 },
