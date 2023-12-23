@@ -2,7 +2,7 @@
 
 Nivx AI is voice first digital shopping assistant for small and mid size ecommerce businesses.
 
-On Frontend Fronterier Empowring Gen AU Multi Modals to create Immerse Shopping expeience.
+On Frontend Fronterier Empowring Gen AI Multi Modals to create Immerse Shopping expeience. A scalable FastAPI backend combined with the best frontend framework.
 
 ## Building the Proof Of Concept: 
 
