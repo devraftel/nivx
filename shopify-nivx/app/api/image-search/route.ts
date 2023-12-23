@@ -1,15 +1,6 @@
 import { VertexAI } from '@google-cloud/vertexai';
 import { NextRequest, NextResponse } from 'next/server';
 import { client } from 'scripts/weaviate';
-import { writeFile } from 'fs/promises';
-import os from 'os';
-import path from 'path';
-
-async function createTempKeyFile(keyContents: any) {
-  const tempPath = path.join(os.tmpdir(), 'google-key.json');
-  await writeFile(tempPath, keyContents);
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = tempPath;
-}
 
 async function getBase64(imageFile: any) {
   //   const image = await axios.get(url, { responseType: 'arraybuffer' });
@@ -26,11 +17,6 @@ async function getBase64(imageFile: any) {
 export async function POST(request: NextRequest) {
   console.log('IMAGE SEARCH ROUTE: \t');
   const formData = await request.formData();
-
-  // Only do this in production
-  if (process.env.VERCEL) {
-    await createTempKeyFile(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-  }
 
   try {
     const imageFile = formData.get('image');
