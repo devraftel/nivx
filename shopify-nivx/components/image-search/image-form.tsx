@@ -58,7 +58,7 @@ export const FindImageForm = () => {
       }
       formData.append('image', value.image);
 
-      const response = await fetch(`/api/image-search/`, {
+      const response = await fetch(`/api/image-search`, {
         method: 'POST',
         body: formData,
       });
@@ -146,16 +146,16 @@ export const FindImageForm = () => {
                           });
                           toast.error('File size should be less than 2 MB');
                         } else if (
-                          !['image/jpeg', 'image/png', 'image/jpg'].includes(
+                          !['image/png'].includes(
                             file.type
                           )
                         ) {
                           form.setError('image', {
                             type: 'manual',
-                            message: 'File should be of type png, jpeg, or jpg',
+                            message: 'File should be of type png',
                           });
                           toast.error(
-                            'File should be of type png, jpeg, or jpg'
+                            'File should be of type png'
                           );
                         } else {
                           onChange(e.target.files[0]);
