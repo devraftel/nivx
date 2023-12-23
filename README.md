@@ -1,15 +1,20 @@
-# Voice First Digital Shopping Assistant 
+# Voice First Digital Shopping Assistant
 
 Nivx AI is voice first digital shopping assistant for small and mid size ecommerce businesses.
 
 On Frontend Fronterier Empowring Gen AI Multi Modals to create Immerse Shopping expeience. A scalable FastAPI backend combined with the best frontend framework.
 
-## Building the Proof Of Concept: 
+## Created for Lablab.ai Gemini Hackathon
+
+This project is created for the [Lablab.ai Gemini AI Hackathon](https://lablab.ai/event/gemini-ai-hackathon).
+
+## Building the Proof Of Concept:
 
 End Goals: Better User Expericne, Increases Convesations and Revenue, Get the same personal shopping exprience like we get physically. Powered with multimodal Gen AI modals and Paving the way to create immerse shopping experience in 2d, 3d and metaverse
 
 The proof of concept does the following:
-1. Have a Voice First AI Avatar present on the Store Landing Page. 
+
+1. Have a Voice First AI Avatar present on the Store Landing Page.
 2. Stage 1: Greet in voice and text. Helps to seamlessily find products, get personal suggestions for clothing wears
 3. Stage 2: Combining Voice and Image so you upload your images and ask AI to share best clothing suggestions for you based on the event you want to attend.
 
@@ -21,7 +26,7 @@ Used Multiple Multi Modal LLMs like Gemini Pro, Gemini Vision, OpenAI, and best 
 
 2. Run pnpm install
 
-3. Ensure you have locally authnticated Google Cloud to run Gemini on Vertex AI. 
+3. Ensure you have locally authnticated Google Cloud to run Gemini on Vertex AI.
 
 3a. Create a service user and download your json formatted api keys. From there you will get the private keys and email ENV vars.
 
@@ -64,7 +69,7 @@ B. Google Cloud
 
 2. Go to Google Cloud Console > Google Run > Deploy your container (din;t forget to add env vars in settings)
 
-Note: Why are we using a service account? ```https://cloud.google.com/docs/authentication```
+Note: Why are we using a service account? `https://cloud.google.com/docs/authentication`
 
 ## Nivx AI Future Development Stages to Become a Successful Startup
 
