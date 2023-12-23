@@ -1,23 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { client } from 'scripts/weaviate';
 import { GoogleAuth } from 'google-auth-library';
-import path from 'path';
 
-async function getAccessToken(jsonPath: string) {
-  const auth = new GoogleAuth({
-    keyFile: jsonPath,
-    scopes: 'https://www.googleapis.com/auth/cloud-platform',
-  });
+const auth = new GoogleAuth({
+  credentials: {
+    client_email: process.env.GOOGLE_SERVICE_CLIENT_EMAIL || 'default_client_email@example.com',
+    private_key: (process.env.GOOGLE_SERVICE_PRIVATE_KEY || 'default_private_key').replace(
+      /\\n/gm,
+      '\n'
+    )
+  },
+  scopes: 'https://www.googleapis.com/auth/cloud-platform'
+});
 
-  const client = await auth.getClient();
-  const accessToken = await client.getAccessToken();
-  return accessToken;
+async function getAccessToken() {
+  try {
+    const client = await auth.getClient();
+    const accessToken = await client.getAccessToken();
+    return accessToken;
+  } catch (error) {
+    console.error('Error getting access token:', error);
+    return null;
+  }
 }
-
-// Construct an absolute path to the JSON key file
-const jsonKeyPath = path.resolve(__dirname, '../../nivx-408903-d25200f4d889.json');
-
-
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -25,10 +30,16 @@ export async function POST(request: NextRequest) {
   console.log('FUN ROUTE: \t', body.prompt);
 
   const prompt = body.prompt;
-  // const prompt = 'Share a gift for this christmas season!!';
 
-    // Get the access token
-  const accessToken = await getAccessToken('nivx-408903-8ce98da433b3.json');  
+  // Get the access token
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return NextResponse.json(
+      { error: 'Failed to authenticate with Google services.' },
+      { status: 500 }
+    );
+  }
 
   const data = await fetch(
     `https://us-central1-aiplatform.googleapis.com/v1/projects/${process.env.GOOGLE_PROJECT_ID}/locations/us-central1/publishers/google/models/gemini-pro:streamGenerateContent`,
@@ -53,10 +64,6 @@ export async function POST(request: NextRequest) {
             parts: { text: prompt }
           }
         ],
-        safety_settings: {
-          category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-          threshold: 'BLOCK_LOW_AND_ABOVE'
-        },
         generation_config: {
           temperature: 0.2,
           topP: 0.8,
@@ -162,10 +169,6 @@ export async function POST(request: NextRequest) {
               },
               { role: 'USER', parts: { text: JSON.stringify(products) } }
             ],
-            safety_settings: {
-              category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-              threshold: 'BLOCK_LOW_AND_ABOVE'
-            },
             generation_config: {
               temperature: 0.7,
               topP: 0.8,

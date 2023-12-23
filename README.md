@@ -21,7 +21,9 @@ Used Multiple Multi Modal LLMs like Gemini Pro, Gemini Vision, OpenAI, and best 
 
 2. Run pnpm install
 
-3. Ensure you have locally authnticated Google Cloud to run Gemini on Vertex AI
+3. Ensure you have locally authnticated Google Cloud to run Gemini on Vertex AI. 
+
+3a. Create a service user and download your json formatted api keys. From there you will get the private keys and email ENV vars.
 
 4. Rename env.example to .env and fill all env variables
 
@@ -55,6 +57,8 @@ Note: we use buildx build --platform linux/amd64 as their is M2 ship images depl
 1. Push your docker image on docker hub
 
 2. Go to Google Cloud Console > Google Run > Deploy your container (din;t forget to add env vars in settings)
+
+Note: Why are we using a service account? ```https://cloud.google.com/docs/authentication```
 
 ## Nivx AI Future Development Stages to Become a Successful Startup
 
