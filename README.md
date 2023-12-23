@@ -1,4 +1,4 @@
-Voice First Digital Shopping Assistant 
+# Voice First Digital Shopping Assistant 
 
 Nivx AI is voice first digital shopping assistant for small and mid size ecommerce businesses.
 
@@ -53,6 +53,12 @@ Start your containor and pass the .env file
 Note: we use buildx build --platform linux/amd64 as their is M2 ship images deployment issue on Google Run. Refer to Google Cloud docs for latest updates.
 
 ## Deployment
+
+A. Vercel
+
+Simply Deply your project on the vercel cloud. Either connect github repo or run vercel in cli/
+
+B. Google Cloud
 
 1. Push your docker image on docker hub
 
