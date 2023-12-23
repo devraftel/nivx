@@ -1,9 +1,9 @@
 // import { getProduct } from 'lib/shopify';
 import Link from 'next/link';
 import { GridTileImage } from './grid/tile';
-import { MYProduct } from './store/products-array';
+import { SearchedProduct } from './store/searched-product-store';
 
-export const GridProduct = async ({ product }: { product: MYProduct }) => {
+export const ProductCard = async ({ product }: { product: SearchedProduct }) => {
   //   const product = await getProduct(handle);
 
   console.log('product', product);

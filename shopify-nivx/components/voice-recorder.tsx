@@ -1,13 +1,13 @@
 'use client';
 import { Mic, StopCircle, AudioLines } from 'lucide-react';
 import { useAudioRecorder } from 'react-audio-voice-recorder';
-import { useProductsStore } from './store/products-array';
-import { useVoiceStore } from './store/voice-response';
+import { useSearchedProductsStore } from './store/searched-product-store';
+import { useGeminiVoiceOutputStore } from './store/gemini-voice-output-store';
 
 export const VoiceRecorder = () => {
   const recorderControls = useAudioRecorder();
-  const { setProducts } = useProductsStore();
-  const { setVoice } = useVoiceStore();
+  const { setProducts } = useSearchedProductsStore();
+  const { setVoice } = useGeminiVoiceOutputStore();
 
   const stopRecording = async () => {
     recorderControls.stopRecording();
@@ -63,7 +63,7 @@ export const VoiceRecorder = () => {
           </p>
         )}
         <button
-          className={`transform rounded-full bg-black/45 dark:bg-gray-100/30 p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 hover:bg-slate-700/55 dark:hover:bg-slate-100/50 focus:outline-none ${
+          className={`bg-black/45 hover:bg-slate-700/55 transform rounded-full p-4 text-gray-100 transition duration-200 ease-in-out hover:scale-105 focus:outline-none dark:bg-gray-100/30 dark:hover:bg-slate-100/50 ${
             recorderControls.isRecording ? 'animate-spin' : ''
           }`}
           onClick={recorderControls.isRecording ? stopRecording : recorderControls.startRecording}

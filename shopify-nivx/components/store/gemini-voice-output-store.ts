@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 
-type VoiceStore = {
+type VoiceOutputStore = {
   voice: string;
+  // eslint-disable-next-line no-unused-vars
   setVoice: (voice: string) => void;
 };
 
-export const useVoiceStore = create<VoiceStore>((set) => ({
+export const useGeminiVoiceOutputStore = create<VoiceOutputStore>((set) => ({
   voice: '',
   setVoice: (voice) => set({ voice })
 }));

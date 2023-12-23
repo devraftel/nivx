@@ -8,40 +8,32 @@ import { z } from 'zod';
 
 import darksetAvatar from '../../public/darksetAvatar.png';
 import lightsetAvatar from '../../public/lightsetAvatar.png';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from 'components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from 'components/ui/form';
 
-import {Button} from 'components/ui/button';
+import { Button } from 'components/ui/button';
 import { Input } from 'components/ui/input';
-import { useProductsStore } from 'components/store/products-array';
-import { useVoiceStore } from 'components/store/voice-response';
+import { useProductsStore } from 'components/store/searched-product-store';
+import { useVoiceStore } from 'components/store/gemini-voice-output-store';
 
 const imageSchema = z.any();
 
 const defaultImageSchema = z.union([z.string(), z.null(), z.undefined()]);
 
 export const SetImageValidator = z.object({
-  image: z.union([imageSchema, defaultImageSchema]),
+  image: z.union([imageSchema, defaultImageSchema])
 });
 
 export type SetImageRequest = z.infer<typeof SetImageValidator>;
 
 export const FindImageForm = () => {
-
   const { setProducts } = useProductsStore();
   const { setVoice } = useVoiceStore();
-
 
   const form = useForm<SetImageRequest>({
     resolver: zodResolver(SetImageValidator),
     defaultValues: {
-      image: undefined,
-    },
+      image: undefined
+    }
   });
 
   const { isSubmitting } = form.formState;
@@ -49,8 +41,7 @@ export const FindImageForm = () => {
   const watchPhoto = form.watch('image');
 
   const onSubmit = async (value: SetImageRequest) => {
-    try {      
-
+    try {
       const formData = new FormData();
       if (!value.image) {
         toast.error('Please upload image');
@@ -60,7 +51,7 @@ export const FindImageForm = () => {
 
       const response = await fetch(`/api/image-search/`, {
         method: 'POST',
-        body: formData,
+        body: formData
       });
 
       if (!response.ok) {
@@ -78,14 +69,12 @@ export const FindImageForm = () => {
       setVoice(newData.response);
 
       toast.success('Image Search Completed!');
-
     } catch (error: any) {
-    
-        return {
-          error:
-            (error as { message: string }).message ||
-            'An unexpected error occurred. Please try again later.',
-      }
+      return {
+        error:
+          (error as { message: string }).message ||
+          'An unexpected error occurred. Please try again later.'
+      };
     }
   };
 
@@ -93,36 +82,36 @@ export const FindImageForm = () => {
     form.setValue('image', '');
     form.setError('image', {
       type: 'manual',
-      message: '',
+      message: ''
     });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
           control={form.control}
-          name='image'
+          name="image"
           render={({ field: { onChange, onBlur } }) => (
             <FormItem>
               <FormControl>
-                <label className='cursor-pointer py-8'>
-                  <div className='flex items-center justify-center '>
+                <label className="cursor-pointer py-8">
+                  <div className="flex items-center justify-center ">
                     {watchPhoto ? (
-                      <div className='relative '>
+                      <div className="relative ">
                         <Image
                           src={URL.createObjectURL(watchPhoto)}
-                          alt='image'
+                          alt="image"
                           width={80}
                           height={80}
-                          className='h-24 w-24 rounded-sm object-cover'
+                          className="h-24 w-24 rounded-sm object-cover"
                         />
                         <Button
                           onClick={onRemoveImage}
                           size={'icon'}
-                          className='absolute h-6 w-6 -right-2 -top-2 rounded-full bg-red-50 hover:bg-red-300 hover:text-red-900 dark:bg-red-800 dark:hover:bg-red-700 dark:hover:text-red-100'
+                          className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-red-50 hover:bg-red-300 hover:text-red-900 dark:bg-red-800 dark:hover:bg-red-700 dark:hover:text-red-100"
                         >
-                          <Trash2 className='rounded-full ' size={12} />
+                          <Trash2 className="rounded-full " size={12} />
                         </Button>
                       </div>
                     ) : (
@@ -130,9 +119,9 @@ export const FindImageForm = () => {
                     )}
                   </div>
                   <Input
-                    type='file'
-                    accept='image/*'
-                    className='hidden'
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
                     onBlur={onBlur}
                     onChange={(e) => {
                       if (!e.target.files || e.target.files.length === 0) {
@@ -142,21 +131,15 @@ export const FindImageForm = () => {
                         if (file.size > 2 * 1024 * 1024) {
                           form.setError('image', {
                             type: 'manual',
-                            message: 'File size should be less than 2 MB',
+                            message: 'File size should be less than 2 MB'
                           });
                           toast.error('File size should be less than 2 MB');
-                        } else if (
-                          !['image/jpeg', 'image/png', 'image/jpg'].includes(
-                            file.type
-                          )
-                        ) {
+                        } else if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
                           form.setError('image', {
                             type: 'manual',
-                            message: 'File should be of type png, jpeg, or jpg',
+                            message: 'File should be of type png, jpeg, or jpg'
                           });
-                          toast.error(
-                            'File should be of type png, jpeg, or jpg'
-                          );
+                          toast.error('File should be of type png, jpeg, or jpg');
                         } else {
                           onChange(e.target.files[0]);
                         }
@@ -170,13 +153,8 @@ export const FindImageForm = () => {
           )}
         />
 
-        <Button
-          className='mt-6 w-full'
-          type='submit'
-          size={'sm'}
-          disabled={isSubmitting}
-        >
-         {isSubmitting ? 'Searching...' : 'Image Search'}
+        <Button className="mt-6 w-full" type="submit" size={'sm'} disabled={isSubmitting}>
+          {isSubmitting ? 'Searching...' : 'Image Search'}
         </Button>
       </form>
     </Form>
@@ -190,14 +168,14 @@ const Defaultimage = () => (
       alt={'Upload Image'}
       width={80}
       height={80}
-      className='flex h-20 w-20 rounded-sm object-cover dark:hidden'
+      className="flex h-20 w-20 rounded-sm object-cover dark:hidden"
     />
     <Image
       src={darksetAvatar}
       alt={'Upload Image'}
       width={80}
       height={80}
-      className='hidden h-20 w-20 rounded-sm object-cover dark:flex'
+      className="hidden h-20 w-20 rounded-sm object-cover dark:flex"
     />
   </>
 );
